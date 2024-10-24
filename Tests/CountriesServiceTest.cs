@@ -13,6 +13,38 @@ public class CountriesServiceTest
         _countriesService = new CountriesService();
     }
 
+    #region GetCountryByCountryID
+
+    [Fact]
+    public void GetCountryByCountryID_NullCountryID()
+    {
+        //Arrange
+        Guid? countryID = null;
+
+        //Act
+        CountryResponse? country_response_from_method = _countriesService.GetCountryByCountryID(countryID);
+
+        //Assert
+        Assert.Null(country_response_from_method);
+    }
+
+    [Fact]
+    public void GetCountryByCountryID_ValidCountryID()
+    {
+        //Arrange
+        CountryAddRequest country_add_request = new CountryAddRequest { CountryName = "Japan" };
+        CountryResponse country_response_from_add = _countriesService.AddCountry(country_add_request);
+
+        //Act
+        CountryResponse? country_response_from_get =
+            _countriesService.GetCountryByCountryID(country_response_from_add.CountryID);
+
+        //Assert
+        Assert.Equal(country_response_from_get, country_response_from_add);
+    }
+
+    #endregion
+
     #region GetAllCountries
 
     //List of countries should be empty by default

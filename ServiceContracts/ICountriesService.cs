@@ -20,4 +20,12 @@ public interface ICountriesService
     /// </summary>
     /// <returns>All countries as List<CountryResponse></returns>
     List<CountryResponse> GetAllCountries();
+
+
+    /// <summary>
+    ///     Returns a country object based on the country id
+    /// </summary>
+    /// <param name="countryID">CountryID (guid) to search</param>
+    /// <returns>Matching country as CountryResponse object</returns>
+    CountryResponse? GetCountryByCountryID(Guid? countryID);
 }

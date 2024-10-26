@@ -1,6 +1,7 @@
 ﻿using Entities;
 using ServiceContracts;
 using ServiceContracts.DTO;
+using Services.Helpers;
 
 namespace Services;
 
@@ -19,8 +20,9 @@ public class PersonsService : IPersonsService
     {
         if (personAddRequest == null) throw new ArgumentNullException(nameof(personAddRequest));
 
-        if (string.IsNullOrEmpty(personAddRequest.PersonName))
-            throw new ArgumentException("Person name is required", nameof(personAddRequest));
+
+        //Model validations
+        ValidationHelper.ModelValidation(personAddRequest);
 
         Person person = personAddRequest.ToPerson();
         person.PersonID = Guid.NewGuid();
@@ -35,6 +37,19 @@ public class PersonsService : IPersonsService
     public List<PersonResponse> GetAllPersons()
     {
         throw new NotImplementedException();
+    }
+
+    public PersonResponse? GetPersonByPersonID(Guid? personID)
+    {
+        if (personID == null)
+            return null;
+
+        Person? person = _persons.FirstOrDefault(p => p.PersonID == personID);
+
+        if (person == null)
+            return null;
+
+        return person.ToPersonResponse();
     }
 
 

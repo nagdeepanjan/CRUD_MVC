@@ -7,12 +7,60 @@ namespace Tests;
 
 public class PersonsServiceTest
 {
+    private readonly ICountriesService _countriesService;
     private readonly IPersonsService _personsService;
 
     public PersonsServiceTest()
     {
         _personsService = new PersonsService();
+        _countriesService = new CountriesService();
     }
+
+    #region GetPersonByPersonID
+
+    [Fact]
+    public void GetPersonByPersonID_NullPersonID()
+    {
+        //Arrange
+        Guid? personID = null;
+
+        //Act
+        PersonResponse? personResponse_from_get = _personsService.GetPersonByPersonID(personID);
+
+        //Assert
+        Assert.Null(personResponse_from_get);
+    }
+
+    //If we supply a valid person id, it should return the person object
+    [Fact]
+    public void GetPersonByPersonID_ValidPersonID()
+    {
+        //Arrange
+        CountryAddRequest countryAddRequest = new CountryAddRequest { CountryName = "Japan" };
+        CountryResponse countryResponse = _countriesService.AddCountry(countryAddRequest);
+
+        //Act
+        PersonAddRequest? personAddRequest = new PersonAddRequest
+        {
+            PersonName = "Person name...",
+            CountryID = countryResponse.CountryID,
+            Email = "test@gmail.com",
+            Address = "Eugene",
+            DateOfBirth = DateTime.Parse("2020-01-01"),
+            Gender = GenderOptions.Male,
+            ReceiveNewsLetters = true
+        };
+
+        PersonResponse person_response_from_add = _personsService.AddPerson(personAddRequest);
+
+        PersonResponse? person_response_from_get =
+            _personsService.GetPersonByPersonID(person_response_from_add.PersonID);
+
+        //Assert
+        Assert.Equal(person_response_from_get, person_response_from_add);
+    }
+
+    #endregion
 
     #region AddPerson
 

@@ -53,7 +53,44 @@ public class PersonsService : IPersonsService
 
     public List<PersonResponse> GetFilteredPersons(string searchBy, string? searchString)
     {
-        throw new NotImplementedException();
+        List<PersonResponse> allPersons = GetAllPersons();
+        List<PersonResponse> matchingPersons = allPersons;
+
+        if (string.IsNullOrEmpty(searchBy) || string.IsNullOrEmpty(searchString))
+            return matchingPersons;
+
+        switch (searchBy)
+        {
+            case nameof(Person.PersonName):
+                matchingPersons = allPersons.Where(p =>
+                    p.PersonName?.Contains(searchString, StringComparison.OrdinalIgnoreCase) == true).ToList();
+                break;
+            case nameof(Person.Email):
+                matchingPersons = allPersons
+                    .Where(p => p.Email?.Contains(searchString, StringComparison.OrdinalIgnoreCase) == true).ToList();
+                break;
+            case nameof(Person.DateOfBirth):
+                matchingPersons = allPersons.Where(p =>
+                    p.DateOfBirth?.ToString("dd MMMM yyyy")
+                        .Contains(searchString, StringComparison.OrdinalIgnoreCase) == true).ToList();
+                break;
+            case nameof(Person.Gender):
+                matchingPersons = allPersons
+                    .Where(p => p.Gender?.Contains(searchString, StringComparison.OrdinalIgnoreCase) == true).ToList();
+                break;
+            case nameof(Person.CountryID):
+                matchingPersons = allPersons.Where(p =>
+                    p.Country?.ToString().Contains(searchString, StringComparison.OrdinalIgnoreCase) == true).ToList();
+                break;
+            case nameof(Person.Address):
+                matchingPersons = allPersons
+                    .Where(p => p.Address?.Contains(searchString, StringComparison.OrdinalIgnoreCase) == true).ToList();
+                break;
+            default:
+                return allPersons;
+        }
+
+        return matchingPersons;
     }
 
     //We spawned this method as it may be useful for many other situations, instead of just being used in AddPerson

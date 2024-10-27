@@ -33,10 +33,9 @@ public class PersonsService : IPersonsService
         return ConvertPersonToPersonResponse(person);
     }
 
-
     public List<PersonResponse> GetAllPersons()
     {
-        throw new NotImplementedException();
+        return _persons.Select(p => p.ToPersonResponse()).ToList();
     }
 
     public PersonResponse? GetPersonByPersonID(Guid? personID)
@@ -52,6 +51,10 @@ public class PersonsService : IPersonsService
         return person.ToPersonResponse();
     }
 
+    public List<PersonResponse> GetFilteredPersons(string searchBy, string? searchString)
+    {
+        throw new NotImplementedException();
+    }
 
     //We spawned this method as it may be useful for many other situations, instead of just being used in AddPerson
     private PersonResponse ConvertPersonToPersonResponse(Person person)

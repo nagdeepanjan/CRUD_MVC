@@ -40,6 +40,11 @@ public class PersonResponse
     {
         return base.GetHashCode();
     }
+
+    public override string ToString()
+    {
+        return $"PersonID: {PersonID}, PersonName: {PersonName}, Email: {Email}, DateOfBirth: {DateOfBirth}";
+    }
 }
 
 public static class PersonExtensions

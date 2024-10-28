@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - CRUDExample</title>
+    <link rel="stylesheet" href="~/wwwroot/StyleSheet.css" />
+</head>
+<body>
+    <div class="navbar">
+        <div class="navbar-brand">CRUDExample</div>
+        <ul>
+            <li><a asp-controller="Home" asp-action="Index">Home</a></li>
+            <li><a asp-controller="Home" asp-action="Create">Create</a></li>
+            <li><a asp-controller="Home" asp-action="Edit">Edit</a></li>
+            <li><a asp-controller="Home" asp-action="Delete">Delete</a></li>
+        </ul>
+    </div>
+    <div class="page-content">
+        @RenderBody()
+    </div>
+</body>
+</html>

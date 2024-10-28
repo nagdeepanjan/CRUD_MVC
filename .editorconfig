@@ -1,0 +1,6 @@
+
+[*]
+
+# ReSharper properties
+resharper_csharp_max_line_length = 200
+resharper_csharp_wrap_lines = false

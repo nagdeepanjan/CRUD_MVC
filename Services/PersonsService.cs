@@ -1,6 +1,7 @@
 ﻿using Entities;
 using ServiceContracts;
 using ServiceContracts.DTO;
+using ServiceContracts.Enums;
 using Services.Helpers;
 
 namespace Services;
@@ -91,6 +92,73 @@ public class PersonsService : IPersonsService
         }
 
         return matchingPersons;
+    }
+
+    public List<PersonResponse> GetSortedPersons(List<PersonResponse> allPersons, string sortBy, SortOrderOptions sortOrder)
+    {
+        if (string.IsNullOrEmpty(sortBy))
+            return allPersons;
+
+        List<PersonResponse> sortedPersons = (sortBy, sortOrder) switch
+        {
+            (nameof(PersonResponse.PersonName), SortOrderOptions.ASC) => allPersons.OrderBy(p => p.PersonName, StringComparer.OrdinalIgnoreCase).ToList(),
+            (nameof(PersonResponse.PersonName), SortOrderOptions.DESC) => allPersons.OrderByDescending(p => p.PersonName, StringComparer.OrdinalIgnoreCase).ToList(),
+            (nameof(PersonResponse.Email), SortOrderOptions.ASC) => allPersons.OrderBy(p => p.Email, StringComparer.OrdinalIgnoreCase).ToList(),
+            (nameof(PersonResponse.Email), SortOrderOptions.DESC) => allPersons.OrderByDescending(p => p.Email, StringComparer.OrdinalIgnoreCase).ToList(),
+            (nameof(PersonResponse.DateOfBirth), SortOrderOptions.ASC) => allPersons.OrderBy(p => p.DateOfBirth).ToList(),
+            (nameof(PersonResponse.DateOfBirth), SortOrderOptions.DESC) => allPersons.OrderByDescending(p => p.DateOfBirth).ToList(),
+            (nameof(PersonResponse.Age), SortOrderOptions.ASC) => allPersons.OrderBy(p => p.Age).ToList(),
+            (nameof(PersonResponse.Age), SortOrderOptions.DESC) => allPersons.OrderByDescending(p => p.Age).ToList(),
+            (nameof(PersonResponse.Gender), SortOrderOptions.ASC) => allPersons.OrderBy(p => p.Gender).ToList(),
+            (nameof(PersonResponse.Gender), SortOrderOptions.DESC) => allPersons.OrderByDescending(p => p.Gender).ToList(),
+            (nameof(PersonResponse.Country), SortOrderOptions.ASC) => allPersons.OrderBy(p => p.Country, StringComparer.OrdinalIgnoreCase).ToList(),
+            (nameof(PersonResponse.Country), SortOrderOptions.DESC) => allPersons.OrderByDescending(p => p.Country, StringComparer.OrdinalIgnoreCase).ToList(),
+            (nameof(PersonResponse.Address), SortOrderOptions.ASC) => allPersons.OrderBy(p => p.Address, StringComparer.OrdinalIgnoreCase).ToList(),
+            (nameof(PersonResponse.Address), SortOrderOptions.DESC) => allPersons.OrderByDescending(p => p.Address, StringComparer.OrdinalIgnoreCase).ToList(),
+            (nameof(PersonResponse.ReceiveNewsLetters), SortOrderOptions.ASC) => allPersons.OrderBy(p => p.ReceiveNewsLetters).ToList(),
+            (nameof(PersonResponse.ReceiveNewsLetters), SortOrderOptions.DESC) => allPersons.OrderByDescending(p => p.ReceiveNewsLetters).ToList(),
+            _ => allPersons
+        };
+        return sortedPersons;
+    }
+
+    public PersonResponse UpdatePerson(PersonUpdateRequest? personUpdateRequest)
+    {
+        if (personUpdateRequest == null) throw new ArgumentNullException(nameof(personUpdateRequest));
+
+        //PersonUpdateRequest is already annotated with validation attributes
+        //We just need to call the ModelValidation method to validate the object
+        ValidationHelper.ModelValidation(personUpdateRequest); //Throws ARGUMENT EXCEPTION if validation fails
+
+        //get matching person object to update
+        Person? matchingPerson = _persons.FirstOrDefault(p => p.PersonID == personUpdateRequest.PersonID);
+
+        if (matchingPerson == null)
+            throw new ArgumentException("Person not found", nameof(personUpdateRequest));
+
+        //Update the matching person object
+        matchingPerson.PersonName = personUpdateRequest.PersonName;
+        matchingPerson.CountryID = personUpdateRequest.CountryID;
+        matchingPerson.Email = personUpdateRequest.Email;
+        matchingPerson.PersonName = personUpdateRequest.PersonName;
+        matchingPerson.DateOfBirth = personUpdateRequest.DateOfBirth;
+        matchingPerson.Gender = personUpdateRequest?.Gender.ToString();
+        matchingPerson.Address = personUpdateRequest?.Address;
+        matchingPerson.ReceiveNewsLetters = personUpdateRequest?.ReceiveNewsLetters ?? false;
+
+        return matchingPerson.ToPersonResponse();
+    }
+
+    public bool DeletePerson(Guid? personID)
+    {
+        if (personID == null) throw new ArgumentNullException(nameof(personID));
+
+        Person? person = _persons.FirstOrDefault(p => p.PersonID == personID);
+
+        if (person == null) return false;
+
+        _persons.Remove(person);
+        return true;
     }
 
     //We spawned this method as it may be useful for many other situations, instead of just being used in AddPerson

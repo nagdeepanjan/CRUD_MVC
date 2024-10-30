@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using ServiceContracts;
 using ServiceContracts.DTO;
+using ServiceContracts.Enums;
 
 namespace CRUDExample.Controllers;
 
@@ -16,9 +17,10 @@ public class PersonsController : Controller
 
     [Route("persons/index")]
     [Route("/")]
-    public IActionResult Index(string searchBy, string? searchString)
+    public IActionResult Index(string searchBy, string? searchString, string sortBy = nameof(PersonResponse.PersonName), SortOrderOptions sortOrder = SortOrderOptions.ASC)
     {
-        //List<PersonResponse> persons = _personsService.GetAllPersons();
+        #region Search
+
         List<PersonResponse> persons = _personsService.GetFilteredPersons(searchBy, searchString);
 
         //Populating the search dropdown
@@ -32,10 +34,19 @@ public class PersonsController : Controller
             { nameof(PersonResponse.Address), "Address" }
         };
 
-
         ViewBag.SearchString = searchString; //Populating the search field
         ViewBag.SearchBy = searchBy; //Populating the search dropdown
 
-        return View(persons);
+        #endregion
+
+        #region Sort
+
+        List<PersonResponse> sortedPersons = _personsService.GetSortedPersons(persons, sortBy, sortOrder);
+        ViewBag.SortBy = sortBy;
+        ViewBag.SortOrder = sortOrder.ToString(); //ToString() V.Imp for Sorting when heading is clicked
+
+        #endregion
+
+        return View(sortedPersons);
     }
 }

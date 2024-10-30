@@ -25,14 +25,78 @@
 <table class="table w-100 mt">
     <thead>
         <tr>
-            <th>Person Name</th>
-            <th>Email</th>
-            <th>Date of Birth</th>
-            <th>Age</th>
-            <th>Gender</th>
-            <th>Country</th>
-            <th>Address</th>
-            <th>Receive News Letter</th>
+                <th>
+                    <a href="~/persons/index?searchBy=@ViewBag.SearchBy&searchString=@ViewBag.SearchString&sortBy=@nameof(PersonResponse.PersonName)&sortOrder=@(ViewBag.SortOrder=="DESC" ? "ASC" : "DESC")">
+                        Person Name
+                        @if (ViewBag.SortBy == nameof(PersonResponse.PersonName))
+                        {
+                            <i class="@(ViewBag.SortOrder == "DESC" ? "fa-solid fa-sort-down" : "fa-solid fa-sort-up")"></i>
+                        }
+                    </a>
+                </th>
+                <th>
+                    <a href="~/persons/index?searchBy=@ViewBag.SearchBy&searchString=@ViewBag.SearchString&sortBy=@nameof(PersonResponse.Email)&sortOrder=@(ViewBag.SortOrder=="DESC" ? "ASC" : "DESC")">
+                        Email
+                        @if (ViewBag.SortBy == nameof(PersonResponse.Email))
+                        {
+                            <i class="@(ViewBag.SortOrder == "DESC" ? "fa-solid fa-sort-down" : "fa-solid fa-sort-up")"></i>
+                        }
+                    </a>
+                </th>
+                <th>
+                    <a href="~/persons/index?searchBy=@ViewBag.SearchBy&searchString=@ViewBag.SearchString&sortBy=@nameof(PersonResponse.DateOfBirth)&sortOrder=@(ViewBag.SortOrder=="DESC" ? "ASC" : "DESC")">
+                        Date of Birth
+                        @if (ViewBag.SortBy == nameof(PersonResponse.DateOfBirth))
+                        {
+                            <i class="@(ViewBag.SortOrder == "DESC" ? "fa-solid fa-sort-down" : "fa-solid fa-sort-up")"></i>
+                        }
+                    </a>
+                </th>
+                <th>
+                    <a href="~/persons/index?searchBy=@ViewBag.SearchBy&searchString=@ViewBag.SearchString&sortBy=@nameof(PersonResponse.Age)&sortOrder=@(ViewBag.SortOrder=="DESC" ? "ASC" : "DESC")">
+                        Age
+                        @if (ViewBag.SortBy == nameof(PersonResponse.Age))
+                        {
+                            <i class="@(ViewBag.SortOrder == "DESC" ? "fa-solid fa-sort-down" : "fa-solid fa-sort-up")"></i>
+                        }
+                    </a>
+                </th>
+                <th>
+                    <a href="~/persons/index?searchBy=@ViewBag.SearchBy&searchString=@ViewBag.SearchString&sortBy=@nameof(PersonResponse.Gender)&sortOrder=@(ViewBag.SortOrder=="DESC" ? "ASC" : "DESC")">
+                        Gender
+                        @if (ViewBag.SortBy == nameof(PersonResponse.Gender))
+                        {
+                            <i class="@(ViewBag.SortOrder == "DESC" ? "fa-solid fa-sort-down" : "fa-solid fa-sort-up")"></i>
+                        }
+                    </a>
+                </th>
+                <th>
+                    <a href="~/persons/index?searchBy=@ViewBag.SearchBy&searchString=@ViewBag.SearchString&sortBy=@nameof(PersonResponse.Country)&sortOrder=@(ViewBag.SortOrder=="DESC" ? "ASC" : "DESC")">
+                        Country
+                        @if (ViewBag.SortBy == nameof(PersonResponse.Country))
+                        {
+                            <i class="@(ViewBag.SortOrder == "DESC" ? "fa-solid fa-sort-down" : "fa-solid fa-sort-up")"></i>
+                        }
+                    </a>
+                </th>
+                <th>
+                    <a href="~/persons/index?searchBy=@ViewBag.SearchBy&searchString=@ViewBag.SearchString&sortBy=@nameof(PersonResponse.Address)&sortOrder=@(ViewBag.SortOrder=="DESC" ? "ASC" : "DESC")">
+                        Address
+                        @if (ViewBag.SortBy == nameof(PersonResponse.Address))
+                        {
+                            <i class="@(ViewBag.SortOrder == "DESC" ? "fa-solid fa-sort-down" : "fa-solid fa-sort-up")"></i>
+                        }
+                    </a>
+                </th>
+                <th>
+                    <a href="~/persons/index?searchBy=@ViewBag.SearchBy&searchString=@ViewBag.SearchString&sortBy=@nameof(PersonResponse.ReceiveNewsLetters)&sortOrder=@(ViewBag.SortOrder=="DESC" ? "ASC" : "DESC")">
+                        Receive News Letter
+                        @if (ViewBag.SortBy == nameof(PersonResponse.ReceiveNewsLetters))
+                        {
+                            <i class="@(ViewBag.SortOrder == "DESC" ? "fa-solid fa-sort-down" : "fa-solid fa-sort-up")"></i>
+                        }
+                    </a>
+                </th>
         </tr>
     </thead>
     <tbody>

@@ -180,28 +180,28 @@ public class PersonsService : IPersonsService
 
         switch (searchBy)
         {
-            case nameof(Person.PersonName):
+            case nameof(PersonResponse.PersonName):
                 matchingPersons = allPersons.Where(p =>
                     p.PersonName?.Contains(searchString, StringComparison.OrdinalIgnoreCase) == true).ToList();
                 break;
-            case nameof(Person.Email):
+            case nameof(PersonResponse.Email):
                 matchingPersons = allPersons
                     .Where(p => p.Email?.Contains(searchString, StringComparison.OrdinalIgnoreCase) == true).ToList();
                 break;
-            case nameof(Person.DateOfBirth):
+            case nameof(PersonResponse.DateOfBirth):
                 matchingPersons = allPersons.Where(p =>
                     p.DateOfBirth?.ToString("dd MMMM yyyy")
                         .Contains(searchString, StringComparison.OrdinalIgnoreCase) == true).ToList();
                 break;
-            case nameof(Person.Gender):
+            case nameof(PersonResponse.Gender):
                 matchingPersons = allPersons
                     .Where(p => p.Gender?.Contains(searchString, StringComparison.OrdinalIgnoreCase) == true).ToList();
                 break;
-            case nameof(Person.CountryID):
+            case nameof(PersonResponse.CountryID):
                 matchingPersons = allPersons.Where(p =>
                     p.Country?.ToString().Contains(searchString, StringComparison.OrdinalIgnoreCase) == true).ToList();
                 break;
-            case nameof(Person.Address):
+            case nameof(PersonResponse.Address):
                 matchingPersons = allPersons
                     .Where(p => p.Address?.Contains(searchString, StringComparison.OrdinalIgnoreCase) == true).ToList();
                 break;

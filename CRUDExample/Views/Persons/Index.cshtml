@@ -3,9 +3,25 @@
 @{
     ViewBag.Title = "Persons";
 }
-
+<form method="get">
 <h1>Persons</h1>
-
+<div class="box flex">
+    <div class="flex-1">
+        <select class="form-input" name="searchBy">
+        @foreach (var field in ViewBag.SearchFields)
+        {
+            <option value="@field.Key" @(field.Key == ViewBag.SearchBy ? "selected" : "")>@field.Value</option>                
+        }
+        </select>
+    </div>
+    <div class="flex-1">
+            <input type="search" class="form-input" placeholder="Search" name="searchString" value="@ViewBag.searchString" />
+    </div>
+    <div class="flex-1">
+        <button class="button button-blue-back">Search</button>
+        <a href="~/persons/index" class="link-hover">Clear All</a>
+    </div>
+</div>
 <table class="table w-100 mt">
     <thead>
         <tr>
@@ -35,3 +51,4 @@
         }
     </tbody>
 </table>
+</form>

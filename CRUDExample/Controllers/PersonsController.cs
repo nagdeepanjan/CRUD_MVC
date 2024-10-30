@@ -62,4 +62,22 @@ public class PersonsController : Controller
         ViewBag.Countries = countries;
         return View();
     }
+
+    [Route("/persons/create")]
+    [HttpPost]
+    public IActionResult Create(PersonAddRequest personAddRequest)
+    {
+        if (ModelState.IsValid)
+        {
+            _personsService.AddPerson(personAddRequest);
+            return RedirectToAction("Index");
+        }
+        else
+        {
+            List<CountryResponse> countries = _countriesService.GetAllCountries();
+            ViewBag.Countries = countries;
+            ViewBag.Errors = ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage).ToList();
+            return View(personAddRequest);
+        }
+    }
 }

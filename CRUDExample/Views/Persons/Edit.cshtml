@@ -1,17 +1,18 @@
-﻿@model PersonAddRequest
+﻿@model PersonUpdateRequest
 @* This is not necessary here. But if you are using tag-helpers, it is necessary. *@
 
 
 @{
-    ViewBag.Title = "Create Person";
+    ViewBag.Title = "Edit Person";
 }
 
 <a href="~/persons/index" class="link-hover">Back to Persons List</a>
 <h2>Create Person</h2>
 
 <div class="w-50">
-    <form action="~/persons/create" method="post">
+    <form action="~/persons/edit" method="post">
 
+        <input type="hidden" asp-for="PersonID"/>
         @*Using model binding and tag helpers for demo*@
         @*PersonName*@
         <div class="form-field flex">
@@ -55,14 +56,14 @@
                 <label class="form-label">Gender</label>
             </div>
             <div class="flex-1">
-                <input type="radio" id="Male" name="Gender" value="Male" />
+                <input type="radio" id="Male" name="Gender" value="Male" asp-for="Gender" />
                 
                 <label for="Male">Male</label>
 
-                <input type="radio" id="Female" name="Gender" value="Female" class="ml" />
+                <input type="radio" id="Female" name="Gender" value="Female" class="ml" asp-for="Gender" />
                 <label for="Female">Female</label>
 
-                <input type="radio" id="Other" name="Gender" value="Other" class="ml" />
+                <input type="radio" id="Other" name="Gender" value="Other" class="ml" asp-for="Gender" />
                 <label for="Other">Other</label>
             </div>
         </div>
@@ -74,12 +75,12 @@
             </div>
             <div class="flex-1">
                 @* <select name="CountryID" id="CountryID" class="form-input"> *@
-                <select asp-for="CountryID" class="form-input" >
+                <select asp-for="CountryID" class="form-input">
                     <option value="">Please Select</option>
                     @foreach (CountryResponse country in ViewBag.Countries)
                     {
                         <option value="@country.CountryID">@country.CountryName</option>
-                    }
+                    } 
 
                 </select>
             </div>
@@ -113,7 +114,7 @@
             <div class="w-25">
             </div>
             <div class="flex-1">
-                <button class="button button-green-back">Create</button>
+                <button class="button button-green-back">Update</button>
 
                 @if (ViewBag.Errors != null)
                 {

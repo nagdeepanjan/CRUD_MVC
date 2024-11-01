@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using ServiceContracts;
 using ServiceContracts.DTO;
 using ServiceContracts.Enums;
@@ -60,6 +61,11 @@ public class PersonsController : Controller
     {
         List<CountryResponse> countries = _countriesService.GetAllCountries();
         ViewBag.Countries = countries;
+
+        // populating the countries dropdown
+        ViewBag.CountriesSelect = countries.Select(c => new SelectListItem { Text = c.CountryName, Value = c.CountryID.ToString() }).ToList();
+
+
         return View();
     }
 
@@ -78,6 +84,46 @@ public class PersonsController : Controller
             ViewBag.Countries = countries;
             ViewBag.Errors = ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage).ToList();
             return View(personAddRequest);
+        }
+    }
+
+    [Route("/persons/edit/{personID}")]
+    [HttpGet]
+    public IActionResult Edit(Guid personID)
+    {
+        PersonResponse? personResponse = _personsService.GetPersonByPersonID(personID);
+
+        if (personResponse == null) return RedirectToAction("Index");
+
+        PersonUpdateRequest personUpdateRequest = personResponse.ToPersonUpdateRequest();
+
+        List<CountryResponse> countries = _countriesService.GetAllCountries();
+        ViewBag.Countries = countries;
+
+        return View(personUpdateRequest);
+    }
+
+    [Route("/persons/edit/")]
+    [HttpPost]
+    public IActionResult Edit(PersonUpdateRequest personUpdateRequest)
+    {
+        PersonResponse? personResponse = _personsService.GetPersonByPersonID(personUpdateRequest.PersonID);
+
+        if (personResponse == null) return RedirectToAction("Index");
+
+
+        if (ModelState.IsValid)
+        {
+            PersonResponse updatedPerson = _personsService.UpdatePerson(personUpdateRequest);
+            return RedirectToAction("Index");
+        }
+        else
+        {
+            List<CountryResponse> countries = _countriesService.GetAllCountries();
+            ViewBag.Countries = countries;
+
+            ViewBag.Errors = ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage).ToList();
+            return View();
         }
     }
 }

@@ -12,10 +12,10 @@ public class PersonAddRequest
 
     [Required(ErrorMessage = "Email cannot be blank")]
     [EmailAddress(ErrorMessage = "Invalid Email")]
+    [DataType(DataType.EmailAddress)]
     public string? Email { get; set; }
 
-
-    public DateTime? DateOfBirth { get; set; }
+    [DataType(DataType.Date)] public DateTime? DateOfBirth { get; set; }
 
 
     public GenderOptions? Gender { get; set; }

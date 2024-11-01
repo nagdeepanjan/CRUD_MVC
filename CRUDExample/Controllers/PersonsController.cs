@@ -103,7 +103,7 @@ public class PersonsController : Controller
         return View(personUpdateRequest);
     }
 
-    [Route("/persons/edit/")]
+    [Route("/persons/edit/{personID}")] //This works if the view used asp-action. If you explicitly use the action name, personID is lost in the POST.
     [HttpPost]
     public IActionResult Edit(PersonUpdateRequest personUpdateRequest)
     {

@@ -160,7 +160,10 @@ public class PersonsService : IPersonsService
 
     public List<PersonResponse> GetAllPersons()
     {
-        return _db.Persons.ToList().Select(p => ConvertPersonToPersonResponse(p)).ToList(); //ToList() is IMPORTANT else compilation error.
+        //return _db.Persons.ToList().Select(p => ConvertPersonToPersonResponse(p)).ToList(); //ToList() is IMPORTANT else compilation error.
+
+        //Using SP
+        return _db.sp_GetAllPersons().Select(p => ConvertPersonToPersonResponse(p)).ToList();
     }
 
     public PersonResponse? GetPersonByPersonID(Guid? personID)

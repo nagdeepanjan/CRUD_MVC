@@ -123,7 +123,31 @@ public class PersonsController : Controller
             ViewBag.Countries = countries;
 
             ViewBag.Errors = ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage).ToList();
-            return View();
+            return View(personResponse.ToPersonUpdateRequest());
         }
+    }
+
+    [Route("/persons/delete/{personID}")]
+    [HttpGet]
+    public IActionResult Delete(Guid? personID)
+    {
+        PersonResponse? personResponse = _personsService.GetPersonByPersonID(personID);
+
+        if (personResponse == null) return RedirectToAction("Index");
+
+
+        return View(personResponse);
+    }
+
+    [Route("/persons/delete/{personID}")]
+    [HttpPost]
+    public IActionResult Delete(PersonUpdateRequest personUpdateRequest)
+    {
+        PersonResponse? personResponse = _personsService.GetPersonByPersonID(personUpdateRequest.PersonID);
+
+        if (personResponse == null) return RedirectToAction("Index");
+
+        _personsService.DeletePerson(personUpdateRequest.PersonID);
+        return RedirectToAction("Index");
     }
 }

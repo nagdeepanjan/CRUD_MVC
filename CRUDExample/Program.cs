@@ -7,8 +7,8 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 
 //Add services into IOC container
-builder.Services.AddSingleton<ICountriesService, CountriesService>(sp => new CountriesService(true));
-builder.Services.AddSingleton<IPersonsService, PersonsService>(sp => new PersonsService(true));
+builder.Services.AddScoped<ICountriesService, CountriesService>(); //(sp => new CountriesService(true));
+builder.Services.AddScoped<IPersonsService, PersonsService>(); // (sp => new PersonsService(true));
 
 //EF
 //DBContext will be injected as a service

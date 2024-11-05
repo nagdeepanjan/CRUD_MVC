@@ -13,9 +13,9 @@ public class PersonsService : IPersonsService
     private readonly ICountriesService _countriesService; //This field is needed by Person as a dependency
 
     //private readonly List<Person> _persons;
-    private readonly PersonsDbContext _db;
+    private readonly ApplicationDbContext _db;
 
-    public PersonsService(PersonsDbContext personsDbContext, ICountriesService countriesService) //bool initialize = false
+    public PersonsService(ApplicationDbContext personsDbContext, ICountriesService countriesService) //bool initialize = false
     {
         _db = personsDbContext;
         _countriesService = countriesService;

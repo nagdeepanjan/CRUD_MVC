@@ -12,7 +12,7 @@ builder.Services.AddScoped<IPersonsService, PersonsService>(); // (sp => new Per
 
 //EF
 //DBContext will be injected as a service
-builder.Services.AddDbContext<PersonsDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 var app = builder.Build();
 

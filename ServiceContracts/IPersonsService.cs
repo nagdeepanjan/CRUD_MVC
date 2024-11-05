@@ -5,9 +5,9 @@ namespace ServiceContracts;
 
 public interface IPersonsService
 {
-    PersonResponse AddPerson(PersonAddRequest? personAddRequest);
+    Task<PersonResponse> AddPerson(PersonAddRequest? personAddRequest);
 
-    List<PersonResponse> GetAllPersons();
+    Task<List<PersonResponse>> GetAllPersons();
 
 
     /// <summary>
@@ -15,7 +15,7 @@ public interface IPersonsService
     /// </summary>
     /// <param name="personID"></param>
     /// <returns>returns the matching person object</returns>
-    PersonResponse? GetPersonByPersonID(Guid? personID);
+    Task<PersonResponse?> GetPersonByPersonID(Guid? personID);
 
 
     /// <summary>
@@ -24,7 +24,7 @@ public interface IPersonsService
     /// <param name="searchBy">Search field to search</param>
     /// <param name="searchString">Value to search</param>
     /// <returns>All matching persons</returns>
-    List<PersonResponse> GetFilteredPersons(string searchBy, string? searchString);
+    Task<List<PersonResponse>> GetFilteredPersons(string searchBy, string? searchString);
 
 
     /// <summary>
@@ -34,7 +34,7 @@ public interface IPersonsService
     /// <param name="sortBy">Name of property used to sort</param>
     /// <param name="sortOrder">ASC/DESC</param>
     /// <returns></returns>
-    List<PersonResponse> GetSortedPersons(List<PersonResponse> allPersons, string sortBy, SortOrderOptions sortOrder);
+    Task<List<PersonResponse>> GetSortedPersons(List<PersonResponse> allPersons, string sortBy, SortOrderOptions sortOrder);
 
 
     /// <summary>
@@ -42,12 +42,12 @@ public interface IPersonsService
     /// </summary>
     /// <param name="personUpdateRequest">Person details to update, including person ID</param>
     /// <returns></returns>
-    PersonResponse UpdatePerson(PersonUpdateRequest? personUpdateRequest);
+    Task<PersonResponse> UpdatePerson(PersonUpdateRequest? personUpdateRequest);
 
     /// <summary>
     ///     Deletes a person based on the given person ID
     /// </summary>
     /// <param name="personID"></param>
     /// <returns>TRUE of successful</returns>
-    bool DeletePerson(Guid? personID);
+    Task<bool> DeletePerson(Guid? personID);
 }

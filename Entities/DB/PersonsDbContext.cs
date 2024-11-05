@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.Data.SqlClient;
+using Microsoft.EntityFrameworkCore;
 using System.Text.Json;
 
 namespace Entities.DB;
@@ -37,10 +38,39 @@ public class PersonsDbContext : DbContext
         string personsJson = File.ReadAllText("persons.json");
         var persons = JsonSerializer.Deserialize<List<Person>>(personsJson);
         persons?.ForEach(p => modelBuilder.Entity<Person>().HasData(p));
+
+        //Fluent API
+        modelBuilder.Entity<Person>().Property(p => p.TIN).HasColumnName("TaxIdentificationNumber").HasColumnType("varchar(8)");
+
+        modelBuilder.Entity<Person>().HasIndex(p => p.TIN).IsUnique();
+
+        //Fluent API for Table Relationships
+        modelBuilder.Entity<Country>()
+            .HasMany(c => c.Persons)
+            .WithOne(p => p.Country)
+            .HasForeignKey(p => p.CountryID)
+            .OnDelete(DeleteBehavior.NoAction); //CascadeDeleteBehavior.SetNull
     }
 
     public List<Person> sp_GetAllPersons()
     {
         return Persons.FromSqlRaw("EXECUTE [dbo].[GetAllPersons]").ToList();
+    }
+
+    public int sp_InsertPerson(Person person)
+    {
+        SqlParameter[] parameters = new SqlParameter[]
+        {
+            new("@PersonID", person.PersonID),
+            new("@PersonName", person.PersonName),
+            new("@Email", person.Email),
+            new("@DateOfBirth", person.DateOfBirth),
+            new("@Gender", person.Gender),
+            new("@CountryID", person.CountryID),
+            new("@Address", person.Address),
+            new("@ReceiveNewsLetters", person.ReceiveNewsLetters)
+        };
+
+        return Database.ExecuteSqlRaw("EXECUTE [dbo].[InsertPerson] @PersonID, @PersonName, @Email, @DateOfBirth, @Gender, @CountryID, @Address, @ReceiveNewsLetters", parameters);
     }
 }

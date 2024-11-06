@@ -1,5 +1,6 @@
 ﻿using Entities;
 using Entities.DB;
+using EntityFrameworkCoreMock;
 using Microsoft.EntityFrameworkCore;
 using ServiceContracts;
 using ServiceContracts.DTO;
@@ -17,9 +18,22 @@ public class PersonsServiceTest
 
     public PersonsServiceTest(ITestOutputHelper testOutputHelper)
     {
-        _countriesService = new CountriesService(new ApplicationDbContext(new DbContextOptionsBuilder<ApplicationDbContext>().Options));
+        //Data for testing
+        var countriesInitialData = new List<Country> { };
+        var personsInitialData = new List<Person> { };
 
-        _personsService = new PersonsService(new ApplicationDbContext(new DbContextOptionsBuilder<ApplicationDbContext>().Options), _countriesService);
+
+        //Mocking DbContext
+        DbContextMock<ApplicationDbContext> dbContextMock = new(new DbContextOptionsBuilder<ApplicationDbContext>().Options);
+        ApplicationDbContext dbContext = dbContextMock.Object;
+
+        //Mocking DBSet        
+        dbContextMock.CreateDbSetMock(x => x.Countries, countriesInitialData);
+        dbContextMock.CreateDbSetMock(x => x.Persons, personsInitialData);
+
+
+        _countriesService = new CountriesService(dbContext);
+        _personsService = new PersonsService(dbContext, _countriesService);
 
         _testOutputHelper = testOutputHelper;
     }
@@ -87,9 +101,10 @@ public class PersonsServiceTest
         //print person_response_list_from_add
         _testOutputHelper.WriteLine("Expected:");
         foreach (PersonResponse person_response in person_response_list_from_add)
-            _testOutputHelper.WriteLine(person_response.ToString()); //Using dependency injection
+            _testOutputHelper.WriteLine(person_response.ToString()); //Using dependency injection
 
-         //Act
+
+        //Act
         List<PersonResponse> persons_list_from_sort =
             await _personsService.GetSortedPersons(allPersons, nameof(Person.PersonName), SortOrderOptions.ASC);
         _testOutputHelper.WriteLine("Actual:");
@@ -184,9 +199,10 @@ public class PersonsServiceTest
 
         PersonUpdateRequest personUpdateRequest = personResponse_from_add.ToPersonUpdateRequest();
         personUpdateRequest.PersonName = "P2";
-        personUpdateRequest.Email = "p2@gmail.com";
+        personUpdateRequest.Email = "p2@gmail.com";
 
-         //Act
+
+        //Act
         PersonResponse personResponse_from_update = await _personsService.UpdatePerson(personUpdateRequest);
 
 
@@ -259,9 +275,10 @@ public class PersonsServiceTest
         //print person_response_list_from_add
         _testOutputHelper.WriteLine("Expected:");
         foreach (PersonResponse person_response in person_response_list_from_add)
-            _testOutputHelper.WriteLine(person_response.ToString()); //Using dependency injection
+            _testOutputHelper.WriteLine(person_response.ToString()); //Using dependency injection
 
-         //Act
+
+        //Act
         List<PersonResponse> persons_list_from_search =
             await _personsService.GetFilteredPersons(nameof(Person.PersonName), "");
         _testOutputHelper.WriteLine("Actual:");
@@ -329,9 +346,10 @@ public class PersonsServiceTest
         //print person_response_list_from_add
         _testOutputHelper.WriteLine("Expected:");
         foreach (PersonResponse person_response in person_response_list_from_add)
-            _testOutputHelper.WriteLine(person_response.ToString()); //Using dependency injection
+            _testOutputHelper.WriteLine(person_response.ToString()); //Using dependency injection
 
-         //Act
+
+        //Act
         List<PersonResponse> persons_list_from_search =
             await _personsService.GetFilteredPersons(nameof(Person.PersonName), "ma");
         _testOutputHelper.WriteLine("Actual:");
@@ -353,9 +371,10 @@ public class PersonsServiceTest
     [Fact]
     public async Task GetAllPersons_EmptyList()
     {
-        //Arrange
+        //Arrange
 
-         //Act
+
+        //Act
         List<PersonResponse> persons = await _personsService.GetAllPersons();
 
         //Assert
@@ -404,9 +423,10 @@ public class PersonsServiceTest
             CountryID = c3.CountryID,
             DateOfBirth = DateTime.Parse("2020-03-03"),
             ReceiveNewsLetters = true
-        };
+        };
 
-         //Act
+
+        //Act
         List<PersonResponse> person_response_list_from_add = new();
         List<PersonAddRequest> person_requests = new() { person_request_1, person_request_2, person_request_3 };
 
@@ -438,9 +458,10 @@ public class PersonsServiceTest
     public async Task GetPersonByPersonID_NullPersonID()
     {
         //Arrange
-        Guid? personID = null;
+        Guid? personID = null;
 
-         //Act
+
+        //Act
         PersonResponse? personResponse_from_get = await _personsService.GetPersonByPersonID(personID);
 
         //Assert
@@ -453,9 +474,10 @@ public class PersonsServiceTest
     {
         //Arrange
         CountryAddRequest countryAddRequest = new CountryAddRequest { CountryName = "Japan" };
-        CountryResponse countryResponse = await _countriesService.AddCountry(countryAddRequest);
+        CountryResponse countryResponse = await _countriesService.AddCountry(countryAddRequest);
 
-         //Act
+
+        //Act
         PersonAddRequest? personAddRequest = new PersonAddRequest
         {
             PersonName = "Person name...",
@@ -520,9 +542,10 @@ public class PersonsServiceTest
             Gender = GenderOptions.Male,
             DateOfBirth = DateTime.Parse("2000-01-01"),
             ReceiveNewsLetters = true
-        };
+        };
 
-         //Act
+
+        //Act
         PersonResponse person_response_from_add = await _personsService.AddPerson(personAddRequest);
 
         List<PersonResponse> persons_list = await _personsService.GetAllPersons();

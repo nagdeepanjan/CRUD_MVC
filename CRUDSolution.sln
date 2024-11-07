@@ -3,15 +3,17 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.11.35327.3
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CRUDExample", "CRUDExample\CRUDExample.csproj", "{C34D85DF-CAF1-4D37-A8CE-2F00097E1237}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CRUDExample", "CRUDExample\CRUDExample.csproj", "{C34D85DF-CAF1-4D37-A8CE-2F00097E1237}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests", "Tests\Tests.csproj", "{E20BEC8D-971E-48B3-B22C-1B6773458EA0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tests", "Tests\Tests.csproj", "{E20BEC8D-971E-48B3-B22C-1B6773458EA0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Entities", "Entities\Entities.csproj", "{EF35358D-EAE9-460C-8FDA-A0FBC3BC200F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Entities", "Entities\Entities.csproj", "{EF35358D-EAE9-460C-8FDA-A0FBC3BC200F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServiceContracts", "ServiceContracts\ServiceContracts.csproj", "{2189B523-2605-4F59-B712-A03A26243C1A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ServiceContracts", "ServiceContracts\ServiceContracts.csproj", "{2189B523-2605-4F59-B712-A03A26243C1A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Services", "Services\Services.csproj", "{31C608BA-00AF-4B8D-8766-769B5B4AA266}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Services", "Services\Services.csproj", "{31C608BA-00AF-4B8D-8766-769B5B4AA266}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RepositoryContracts", "RepositoryContracts\RepositoryContracts.csproj", "{E1E5EB46-735B-4DA7-BE21-9502C9C083EB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +41,10 @@ Global
 		{31C608BA-00AF-4B8D-8766-769B5B4AA266}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{31C608BA-00AF-4B8D-8766-769B5B4AA266}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{31C608BA-00AF-4B8D-8766-769B5B4AA266}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E1E5EB46-735B-4DA7-BE21-9502C9C083EB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E1E5EB46-735B-4DA7-BE21-9502C9C083EB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E1E5EB46-735B-4DA7-BE21-9502C9C083EB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E1E5EB46-735B-4DA7-BE21-9502C9C083EB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

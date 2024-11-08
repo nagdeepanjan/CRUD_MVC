@@ -24,7 +24,7 @@ public class CountriesServiceTest
 
 
         //var dbContext = new PersonsDbContext(new DbContextOptionsBuilder<PersonsDbContext>().Options);
-        _countriesService = new CountriesService(dbContext);
+        _countriesService = new CountriesService(null);
     }
 
     #region GetCountryByCountryID

@@ -32,7 +32,8 @@ public class PersonsRepository : IPersonsRepository
 
     public async Task<List<Person>> GetAllPersons()
     {
-        return await _db.Persons.Include("Country").ToListAsync();
+        var allPersons = await _db.Persons.Include("Country").ToListAsync();
+        return allPersons;
     }
 
     public async Task<List<Person>> GetFilteredPersons(Expression<Func<Person, bool>> predicate)

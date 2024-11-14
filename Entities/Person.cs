@@ -18,7 +18,7 @@ public class Person
     [StringLength(10)] //nvarchar(10)
     public string? Gender { get; set; }
 
-    //uniqueidentifier
+    //unique identifier
     public Guid? CountryID { get; set; }
 
     [StringLength(200)] //nvarchar(200)

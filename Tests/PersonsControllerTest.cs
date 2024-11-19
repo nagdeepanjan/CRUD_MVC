@@ -2,6 +2,7 @@
 using CRUDExample.Controllers;
 using FluentAssertions;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using Moq;
 using ServiceContracts;
 using ServiceContracts.DTO;
@@ -36,7 +37,7 @@ public class PersonsControllerTest
         //Arrange
         List<PersonResponse> persons_response_list = _fixture.Create<List<PersonResponse>>();
 
-        PersonsController personsController = new(_personsService, _countriesService);
+        PersonsController personsController = new(_personsService, _countriesService, Mock.Of<ILogger<PersonsController>>());
         _personsServiceMock.Setup(x => x.GetFilteredPersons(It.IsAny<string>(), It.IsAny<string>()))
             .ReturnsAsync(persons_response_list);
         _personsServiceMock.Setup(x => x.GetSortedPersons(It.IsAny<List<PersonResponse>>(), It.IsAny<string>(), It.IsAny<SortOrderOptions>()))
@@ -69,7 +70,7 @@ public class PersonsControllerTest
         _personsServiceMock.Setup(x => x.AddPerson(It.IsAny<PersonAddRequest>())).ReturnsAsync(person_response);
 
 
-        PersonsController personsController = new(_personsService, _countriesService);
+        PersonsController personsController = new(_personsService, _countriesService, Mock.Of<ILogger<PersonsController>>());
 
 
         //Act
@@ -97,7 +98,7 @@ public class PersonsControllerTest
         _personsServiceMock.Setup(x => x.AddPerson(It.IsAny<PersonAddRequest>())).ReturnsAsync(person_response);
 
 
-        PersonsController personsController = new(_personsService, _countriesService);
+        PersonsController personsController = new(_personsService, _countriesService, Mock.Of<ILogger<PersonsController>>());
 
 
         //Act

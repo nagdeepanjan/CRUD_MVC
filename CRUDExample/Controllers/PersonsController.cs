@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using CRUDExample.Filters.ActionFilters;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using ServiceContracts;
 using ServiceContracts.DTO;
@@ -10,18 +11,24 @@ public class PersonsController : Controller
 {
     //private fields
     private readonly ICountriesService _countriesService;
+    private readonly ILogger<PersonsController> _logger;
     private readonly IPersonsService _personsService;
 
-    public PersonsController(IPersonsService personsService, ICountriesService countriesService)
+    public PersonsController(IPersonsService personsService, ICountriesService countriesService, ILogger<PersonsController> logger)
     {
         _personsService = personsService;
         _countriesService = countriesService;
+        _logger = logger;
     }
 
     [Route("persons/index")]
     [Route("/")]
+    [TypeFilter(typeof(PersonsListActionFilter))]
+    [TypeFilter(typeof(ResponseHeaderActionFilter), Arguments = new object[] { "X-Custom-Key", "Custom-Value" })]
     public async Task<IActionResult> Index(string searchBy, string? searchString, string sortBy = nameof(PersonResponse.PersonName), SortOrderOptions sortOrder = SortOrderOptions.ASC)
     {
+        _logger.LogInformation("ControllerLog!");
+
         #region Search
 
         List<PersonResponse> persons = await _personsService.GetFilteredPersons(searchBy, searchString);

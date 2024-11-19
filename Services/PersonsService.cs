@@ -1,4 +1,5 @@
 ﻿using Entities;
+using Exceptions;
 using RepositoryContracts;
 using ServiceContracts;
 using ServiceContracts.DTO;
@@ -108,7 +109,8 @@ public class PersonsService : IPersonsService
         Person? matchingPerson = await _personsRepository.GetPersonByPersonID(personUpdateRequest.PersonID);
 
         if (matchingPerson == null)
-            throw new ArgumentException("Person not found", nameof(personUpdateRequest));
+            //throw new ArgumentException("Person not found", nameof(personUpdateRequest));
+            throw new InvalidPersonIdException("Given Person Id does not exist.");
 
         //Update the matching person object
         matchingPerson.PersonName = personUpdateRequest.PersonName;
